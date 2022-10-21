@@ -79,8 +79,8 @@ main() {
             fi
         done
 
-        release_charts
-        update_index
+        # release_charts
+        # update_index
     else
         echo "Nothing to do. No chart changes detected."
     fi
@@ -232,16 +232,15 @@ lookup_latest_tag() {
 }
 
 filter_charts() {
+    if [[ -f "./Chart.yaml" ]]; then
+      echo "."
+      return
+    fi
+
     while read -r chart; do
-
-        # Start with a single, root chart
-        local file="Chart.yaml"
-
-        # Handle multiple, sub-dir charts
-        if [[ -d "$chart" ]]; then
-          $file="$chart/Chart.yaml"
-        fi
-
+        [[ ! -d "$chart" ]] && continue
+        local file="$chart/Chart.yaml"
+        
         if [[ -f "$file" ]]; then
             echo "$chart"
         else
