@@ -238,7 +238,7 @@ filter_charts() {
         local file="Chart.yaml"
 
         # Handle multiple, sub-dir charts
-        if [[ -d "$chart" ]] then
+        if [[ -d "$chart" ]]; then
           $file="$chart/Chart.yaml"
         fi
 
