@@ -233,8 +233,15 @@ lookup_latest_tag() {
 
 filter_charts() {
     while read -r chart; do
-        [[ ! -d "$chart" ]] && continue
-        local file="$chart/Chart.yaml"
+
+        # Start with a single, root chart
+        local file="Chart.yaml"
+
+        # Handle multiple, sub-dir charts
+        if [[ -d "$chart" ]] then
+          $file="$chart/Chart.yaml"
+        fi
+
         if [[ -f "$file" ]]; then
             echo "$chart"
         else
